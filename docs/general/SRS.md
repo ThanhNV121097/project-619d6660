@@ -55,8 +55,6 @@ Behaviour:
 | Case | Condition | Expected behaviour |
 |---|---|---|
 | Permission | Guest has no signed-in session | Not applicable: this module is public and has no permission rule beyond open access |
-| Boundary | Stored greeting is empty or missing | Not applicable: brief defines one stored row with one displayed greeting; empty-state UI is not part of approved design |
-| Upstream failure | API or database is unavailable | Not applicable in approved design: no error or loading state is shown; contract failure handling belongs in service design |
 
 **Data touched**
 
