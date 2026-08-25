@@ -64,9 +64,9 @@ Behaviour:
 
 ## 5. Screens
 
-| Screen | Section in the design | Functions it serves | States that must exist |
-|---|---|---|---|
-| Main page | Main | GENERAL-001 | default |
+| Screen | Section in the design | Functions it serves |
+|---|---|---|
+| Main page | Main | GENERAL-001 |
 
 ## 6. Non-functional requirements
 
