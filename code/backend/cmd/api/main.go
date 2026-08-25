@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/ThanhNV121097/project-619d6660/backend/internal/migrations"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -57,7 +58,7 @@ func main() {
 		case err == nil:
 			w.Header().Set("Content-Type", "application/json")
 			_ = json.NewEncoder(w).Encode(map[string]string{"greeting_text": greeting})
-		case errors.Is(err, pgxpool.ErrNoRows):
+		case errors.Is(err, pgx.ErrNoRows):
 			writeAPIError(w, http.StatusNotFound, "greeting_not_found", "Greeting not found.")
 		default:
 			log.Printf("query greeting: %v", err)
