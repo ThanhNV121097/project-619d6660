@@ -80,11 +80,6 @@ Behaviour:
 
 - **Depends on:** backend API, for reading the stored greeting.
 - **Depends on:** PostgreSQL, for storing the single greeting row.
-- **Assumption:** one greeting row exists at runtime; if not, the product has no approved empty state.
-
-| Open question | Proposed default | Who decides |
-|---|---|---|
-| What exact empty-state or error behavior should exist if DB/API fails? | None; keep approved one-state design and let service contract define failure handling | Stakeholder / TL |
 
 ## 8. Traceability
 
