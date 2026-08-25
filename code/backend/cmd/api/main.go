@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -46,6 +47,23 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("ok"))
 	})
+	mux.HandleFunc("GET /v1/greeting", func(w http.ResponseWriter, r *http.Request) {
+		requestCtx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+		defer cancel()
+
+		var greeting string
+		err := db.QueryRow(requestCtx, `select greeting_text from greetings where id = 1`).Scan(&greeting)
+		switch {
+		case err == nil:
+			w.Header().Set("Content-Type", "application/json")
+			_ = json.NewEncoder(w).Encode(map[string]string{"greeting_text": greeting})
+		case errors.Is(err, pgxpool.ErrNoRows):
+			writeAPIError(w, http.StatusNotFound, "greeting_not_found", "Greeting not found.")
+		default:
+			log.Printf("query greeting: %v", err)
+			writeAPIError(w, http.StatusInternalServerError, "internal_error", "Something went wrong.")
+		}
+	})
 
 	server := &http.Server{
 		Addr:              ":" + port(),
@@ -57,6 +75,12 @@ func main() {
 	if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal(err)
 	}
+}
+
+func writeAPIError(w http.ResponseWriter, status int, code, message string) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+	_ = json.NewEncoder(w).Encode(map[string]any{"error": map[string]string{"code": code, "message": message}})
 }
 
 func ping(ctx context.Context, db *pgxpool.Pool) error {
