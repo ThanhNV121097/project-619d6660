@@ -46,7 +46,7 @@ Behaviour:
 | # | Given | When | Then |
 |---|---|---|---|
 | AC-1 | Stored greeting value is `Hello Word` | Guest opens page | Page shows `Hello Word` centered on screen |
-| AC-2 | Stored greeting value is any other text | Guest opens page | Page shows that exact stored text, not a hardcoded fallback |
+| AC-2 | Stored greeting value exists in PostgreSQL row used by this module | Guest opens page | Page shows that exact stored value; no hardcoded fallback or alternate greeting is used |
 | AC-3 | Page loads successfully | Guest views page | Background is white and text is black |
 | AC-4 | Page loads successfully | Guest views page | No animation or extra content appears |
 
